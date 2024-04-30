@@ -11,6 +11,7 @@ const shelfRoute = require("./Routes/ShelfRoute")
 const itemRoute = require("./Routes/ItemRoute")
 const depositionRoute = require("./Routes/DepositionRoute")
 const rentContractRoute = require("./Routes/RentContractRoute")
+const historyContractRoute = require("./Routes/HistoryContractRoute")
 const buildingRoute = require("./Routes/BuildingRoute")
 const multer = require('multer');
 const path = require('path'),
@@ -102,6 +103,8 @@ app.use("/item", itemRoute)
 app.use("/rentContract", rentContractRoute)
 
 app.use("/deposition", depositionRoute)
+
+app.use("/historyContract", historyContractRoute)
 
 // Serve a single uploaded image based on ID
 app.get('/image/:imgUrl', (req, res) => {

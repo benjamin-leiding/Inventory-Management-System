@@ -8,6 +8,7 @@ import {useAppDispatch, useAppSelector } from "../../Hooks";
 import { selectUser } from "../../state/UserState";
 import {createRentContractAsync, endRentContractAsync, getAllRentContractsAsync, getOwnRentContractsAsync} from "../../state/RentContractState";
 import { getItemsAsync } from "../../state/ItemState";
+import { getAllHistoryContractsAsync } from "../../state/HistoryContractState";
 
 export const RentContracts = () => {
 
@@ -174,6 +175,7 @@ export const RentContracts = () => {
                         handlerEndRentcontract.close()
                         dispatch(getAllRentContractsAsync())
                         dispatch(getOwnRentContractsAsync())
+                        dispatch(getAllHistoryContractsAsync())
                         dispatch(getItemsAsync())
                         setItemId("")
                     })

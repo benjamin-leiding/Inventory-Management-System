@@ -3,6 +3,7 @@ import { accountsSlice } from './state/AccountsState';
 import { buildingsSlice } from './state/BuildingState';
 import { dashboardSlice } from './state/DashboardState';
 import { depositionsSlice } from './state/DepositionState';
+import { historyContractsSlice } from './state/HistoryContractState';
 import { itemsSlice } from './state/ItemState';
 import { rentContractsSlice } from './state/RentContractState';
 import { roomsSlice } from './state/RoomState';
@@ -21,7 +22,8 @@ const store = configureStore({
         shelfs : shelfSlice.reducer,
         items: itemsSlice.reducer,
         rentContracts: rentContractsSlice.reducer,
-        depositions: depositionsSlice.reducer
+        depositions: depositionsSlice.reducer,
+        historyContracts: historyContractsSlice.reducer
     }
 });
 

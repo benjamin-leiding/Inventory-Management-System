@@ -13,6 +13,7 @@ import { FindItems } from './FindItems';
 import { Items } from './Management/Items';
 import { ManagePanel } from './ManagePanel';
 import { OwnRentContracts } from './OwnRentContracts';
+import {getAllHistoryContractsAsync} from "../state/HistoryContractState";
 
 export const MainScreen = () => {
 
@@ -28,6 +29,7 @@ export const MainScreen = () => {
         dispatch(getItemsAsync())
         dispatch(getAllRentContractsAsync())
         dispatch(getOwnRentContractsAsync())
+        dispatch(getAllHistoryContractsAsync())
 
     },[]) // The empty dependency array ensures that this effect runs only once after mount
 

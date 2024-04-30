@@ -1,14 +1,17 @@
-import {Badge, Button, Card, Text } from "@mantine/core"
+import {Badge, Button, Card, Tabs, Text } from "@mantine/core"
 import { useAppSelector } from "../Hooks"
 import { selectRentContracts } from "../state/RentContractState"
 import { IconArrowBack, IconTrash , IconBoxModel, IconFile3d, IconCube, IconUserBolt,IconUserCheck,IconUserShare} from '@tabler/icons-react'
 import { useState } from "react"
 import { RentContract } from "../Models/RentContract"
 import { RentContracts } from "./Management/RentContracts"
+import { selectHistoryContracts } from "../state/HistoryContractState"
 
 export const AllRentContracts = () => {
 
     const contractState = useAppSelector(selectRentContracts)
+
+    const historyContractState = useAppSelector(selectHistoryContracts)
 
     const [openedScreen, setOpenedScreen] = useState("Contracts")
 
@@ -21,48 +24,109 @@ export const AllRentContracts = () => {
         {openedScreen === "Contracts" && <>
             <RentContracts></RentContracts>
             <br />
-            {contractState.rentContracts.length === 0 ? <Text>There are no current rentcontracts</Text>: <Text>Contracts</Text>}
+            <Tabs defaultValue="Current">
+                <Tabs.List>
+                    <Tabs.Tab value="Current" >
+                        Current Contracts
+                    </Tabs.Tab>
+                    <Tabs.Tab value="History">
+                        History Contracts
+                    </Tabs.Tab>
+                </Tabs.List>
 
-            {sortRentContractsByExpires(contractState.rentContracts).map(contract => {
-                return <Card shadow="sm" padding="xs" mb="10px" radius="md" withBorder>
-                    <div style={{display: "flex", justifyContent: "space-between", alignItems: "center"}}>
-                        <div>
-                            <Text  size="sm" c="dimmed">Itemname</Text>
-                            <Text>{contract.itemName}</Text>
-                        </div>
+                <Tabs.Panel value="Current">
+                    {contractState.rentContracts.length === 0 ? <Text>There are no current rentcontracts</Text>: <br></br>}
 
-
-                        <div>
-                            <Text  size="sm" c="dimmed">Borrower</Text>
-                            <Text>{contract.rentUserUserName}</Text>
-                        </div>
-
-                    </div>
-                    <br/>
-                    <div style={{display: "flex", justifyContent: "space-between", alignItems: "center"}}>
-                        <div>
-                            <Text  size="sm" c="dimmed">{isDateInPast(new Date(contract.expires)) ? "Expired" : "Expires"}</Text>
-                            <Badge color={isDateInPast(new Date(contract.expires)) ? "red" : "green"}><Text>
-                                {Intl.DateTimeFormat("de-DE", {
-                                    year: "numeric",
-                                    month: "numeric",
-                                    day: "numeric",
-                                    timeZone: "UTC",
-                                }).format(new Date(contract.expires))}
-                            </Text></Badge>
-                        </div>
+                    {sortRentContractsByExpires(contractState.rentContracts).map(contract => {
+                        return <Card shadow="sm" padding="xs" mb="10px" radius="md" withBorder>
+                            <div style={{display: "flex", justifyContent: "space-between", alignItems: "center"}}>
+                                <div>
+                                    <Text  size="sm" c="dimmed">Itemname</Text>
+                                    <Text>{contract.itemName}</Text>
+                                </div>
 
 
-                        <Button
-                            style={{borderRadius: "15px"}}
-                            onClick={() => {
-                                setOpenedScreen("Contract")
-                                setContract(contract)
-                            }}>Details</Button>
-                    </div>
+                                <div>
+                                    <Text  size="sm" c="dimmed">Borrower</Text>
+                                    <Text>{contract.rentUserUserName}</Text>
+                                </div>
 
-                </Card>
-            })}
+                            </div>
+                            <br/>
+                            <div style={{display: "flex", justifyContent: "space-between", alignItems: "center"}}>
+                                <div>
+                                    <Text  size="sm" c="dimmed">{isDateInPast(new Date(contract.expires)) ? "Expired" : "Expires"}</Text>
+                                    <Badge color={isDateInPast(new Date(contract.expires)) ? "red" : "green"}><Text>
+                                        {Intl.DateTimeFormat("de-DE", {
+                                            year: "numeric",
+                                            month: "numeric",
+                                            day: "numeric",
+                                            timeZone: "UTC",
+                                        }).format(new Date(contract.expires))}
+                                    </Text></Badge>
+                                </div>
+
+
+                                <Button
+                                    style={{borderRadius: "15px"}}
+                                    onClick={() => {
+                                        setOpenedScreen("Contract")
+                                        setContract(contract)
+                                    }}>Details</Button>
+                            </div>
+
+                        </Card>
+                    })}
+                </Tabs.Panel>
+
+                <Tabs.Panel value="History">
+                    {historyContractState.historyContracts.length === 0 ? <Text>There are no history rentcontracts</Text>: <br></br>}
+
+                    {sortRentContractsByExpires(historyContractState.historyContracts).map(contract => {
+                        return <Card shadow="sm" padding="xs" mb="10px" radius="md" withBorder>
+                            <div style={{display: "flex", justifyContent: "space-between", alignItems: "center"}}>
+                                <div>
+                                    <Text  size="sm" c="dimmed">Itemname</Text>
+                                    <Text>{contract.itemName}</Text>
+                                </div>
+
+
+                                <div>
+                                    <Text  size="sm" c="dimmed">Borrower</Text>
+                                    <Text>{contract.rentUserUserName}</Text>
+                                </div>
+
+                            </div>
+                            <br/>
+                            <div style={{display: "flex", justifyContent: "space-between", alignItems: "center"}}>
+                                <div>
+                                    <Text  size="sm" c="dimmed">{isDateInPast(new Date(contract.expires)) ? "Expired" : "Expires"}</Text>
+                                    <Badge color={isDateInPast(new Date(contract.expires)) ? "red" : "green"}><Text>
+                                        {Intl.DateTimeFormat("de-DE", {
+                                            year: "numeric",
+                                            month: "numeric",
+                                            day: "numeric",
+                                            timeZone: "UTC",
+                                        }).format(new Date(contract.expires))}
+                                    </Text></Badge>
+                                </div>
+
+
+                                <Button
+                                    style={{borderRadius: "15px"}}
+                                    onClick={() => {
+                                        setOpenedScreen("Contract")
+                                        setContract(contract)
+                                    }}>Details</Button>
+                            </div>
+
+                        </Card>
+                    })}
+                </Tabs.Panel>
+
+            </Tabs>
+
+
         </>}
 
         {openedScreen === "Contract" && contract && <>

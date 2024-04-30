@@ -1,7 +1,8 @@
 const User = require("../Models/UserModel");
 const Room = require("../Models/RoomModel");
 const Shelf = require("../Models/ShelfModel");
-const Item = require("../Models/ItemModel")
+const Item = require("../Models/ItemModel");
+const HistoryContract = require("../Models/HistoryContract");
 const RentContract = require("../Models/RentContract");
 const { createSecretToken } = require("../util/SecretToken");
 const bcrypt = require("bcrypt");
@@ -183,7 +184,10 @@ module.exports.EndRentContract = async (req, res, next) => {
         const { itemId } = req.body;
 
         const foundContract = await RentContract.findOne({itemId})
+
+
         if(foundContract){
+            const historyContract = await HistoryContract.create({ itemId: foundContract.itemId, rentUserId : foundContract.rentUserId, contractorId: foundContract.contractorId, expires: foundContract.expires });
             await RentContract.findOneAndDelete({itemId}); // Delete the existing rent contract
             return res
                 .status(201)

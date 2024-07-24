@@ -10,6 +10,7 @@ import {createShelfAsync, deleteShelfAsync, printShelfAsync} from "../../state/S
 import { Building } from "../../Models/Building";
 import { getItemsAsync } from "../../state/ItemState";
 import QRCode from "react-qr-code";
+import { Shelf } from "../../Models/Shelf";
 
 export const Buildings = () => {
 
@@ -310,28 +311,12 @@ export const Buildings = () => {
                                         </div>
 
                                         <div style={{display: "flex", justifyContent: "space-between", alignItems: "center", marginTop: "10px"}}>
-                                            <Modal opened={openedShelfQr} onClose={handlerShelfQr.close} title="Shelf Qr-Code">
 
-                                                <Text  size="sm" c="dimmed">Id</Text>
-                                                <Text>{shelf._id}</Text>
-                                                <Text  size="sm" c="dimmed">Name</Text>
-                                                <Text>{shelf.name}</Text>
-                                                <div style={{   width: "100%", display: "flex", justifyContent: "center", padding: "25px" }}>
-                                                    <QRCode
-                                                        size={256}
-                                                        style={{ height: "auto",  width: "80%" }}
-                                                        value={shelf._id}
-                                                        viewBox={`0 0 256 256`}
-                                                    />
-                                                </div>
-                                                <div style={{width: "100%", display: "flex", justifyContent: "flex-end"}}>
-                                                    <Button onClick={() => {
-                                                        dispatch(printShelfAsync({shelfId: shelf._id}))
-                                                        handlerShelfQr.close()
-                                                    }}>Print Qr-Code</Button>
-                                                </div>
-                                            </Modal>
-                                            <Button onClick={handlerShelfQr.open}>Qr-code</Button>
+                                            <Button onClick={() => {
+                                                handlerShelfQr.open()
+                                                setShelfId(shelf._id);
+                                                setShelfName(shelf.name)
+                                            }}>Qr-code</Button>
                                             <Button onClick={() => {
                                                 setShelfId(shelf._id);
                                                 setShelfName(shelf.name)
@@ -341,6 +326,33 @@ export const Buildings = () => {
 
                                     </Card>
                                 })}
+                                <Modal opened={openedShelfQr} onClose={() => {
+                                    handlerShelfQr.close()
+                                    setShelfName("")
+                                    setShelfId("")
+                                }} title="Shelf Qr-Code">
+
+                                    <Text  size="sm" c="dimmed">Id</Text>
+                                    <Text>{shelfId}</Text>
+                                    <Text  size="sm" c="dimmed">Name</Text>
+                                    <Text>{shelfName}</Text>
+                                    <div style={{   width: "100%", display: "flex", justifyContent: "center", padding: "25px" }}>
+                                        <QRCode
+                                            size={256}
+                                            bgColor={"#242424"}
+                                            fgColor={"#f9f9f9"}
+                                            style={{ height: "auto",  width: "80%"}}
+                                            value={shelfId}
+                                            viewBox={`0 0 256 256`}
+                                        />
+                                    </div>
+                                    <div style={{width: "100%", display: "flex", justifyContent: "flex-end"}}>
+                                        <Button onClick={() => {
+                                            dispatch(printShelfAsync({shelfId: shelfId}))
+                                            handlerShelfQr.close()
+                                        }}>Print Qr-Code</Button>
+                                    </div>
+                                </Modal>
                                 </>
                             })
                     })

@@ -13,53 +13,53 @@ export const Menu = () => {
 
     const dispatch = useAppDispatch()
 
-    return <AppShell.Footer h={"60px"}>
-        <div style={{display: "flex", alignItems: "center", paddingTop: "10px",paddingBottom: "10px", justifyContent: "space-evenly"}}>
 
-            <Button onClick={() => dispatch(setSelectedPage(1))} style={dashboardState.selectedPage == 1 ? {borderRadius: "15px"} : {borderRadius: "15px", backgroundColor: "white"}}>
+    return <AppShell.Footer h={"60px"}>
+        <Flex h={"100%"} align={"center"} justify={"space-evenly"}>
+            <Button onClick={() => dispatch(setSelectedPage(1))} style={dashboardState.selectedPage == 1 ? {borderRadius: "15px", backgroundColor: "#c4ad83"} : {borderRadius: "15px", backgroundColor: "#242424", paddingRight: "15px", paddingLeft: "15px"}}>
                 <IconBoxMultiple  style={{ width: rem(30), height: rem(30) }}
                                  stroke={1.5}
-                                 color={dashboardState.selectedPage == 1 ? "white" : "black"}>
+                                 color={dashboardState.selectedPage == 1 ? "#2E2E2E" : "#c4ad83"}>
                 </IconBoxMultiple>
             </Button>
 
-            <Button onClick={() => dispatch(setSelectedPage(2))} style={dashboardState.selectedPage == 2 ? {borderRadius: "15px"} : {borderRadius: "15px", backgroundColor: "white"}}>
+            <Button onClick={() => dispatch(setSelectedPage(2))} style={dashboardState.selectedPage == 2 ? {borderRadius: "15px", backgroundColor: "#c4ad83"} : {borderRadius: "15px", backgroundColor: "#242424", paddingRight: "15px", paddingLeft: "15px"}}>
                 <IconFile3d  style={{ width: rem(30), height: rem(30) }}
                                      stroke={1.5}
-                             color={dashboardState.selectedPage == 2 ? "white" : "black"}>
+                             color={dashboardState.selectedPage == 2 ? "#2E2E2E" : "#c4ad83"}>
                 </IconFile3d>
             </Button>
 
-            {userState.userProfile?.role != undefined && userState.userProfile?.role >= 1 &&  <Button onClick={() => dispatch(setSelectedPage(3))} style={dashboardState.selectedPage == 3 ? {borderRadius: "15px"} : {borderRadius: "15px", backgroundColor: "white"}}>
+            {userState.userProfile?.role != undefined && userState.userProfile?.role >= 1 &&  <Button onClick={() => dispatch(setSelectedPage(3))} style={dashboardState.selectedPage == 3 ? {borderRadius: "15px", backgroundColor: "#c4ad83"} : {borderRadius: "15px", backgroundColor: "#242424", paddingRight: "15px", paddingLeft: "15px"}}>
                 <IconBuildingWarehouse  style={{ width: rem(30), height: rem(30) }}
                                    stroke={1.5}
-                                   color={dashboardState.selectedPage == 3 ? "white" : "black"}>
+                                   color={dashboardState.selectedPage == 3 ? "#2E2E2E" : "#c4ad83"}>
                 </IconBuildingWarehouse>
             </Button>}
 
-            {userState.userProfile?.role != undefined && userState.userProfile?.role >= 1 && <Button onClick={() => dispatch(setSelectedPage(4))} style={dashboardState.selectedPage == 4 ? {borderRadius: "15px"} : {borderRadius: "15px", backgroundColor: "white"}}>
+            {userState.userProfile?.role != undefined && userState.userProfile?.role >= 1 && <Button onClick={() => dispatch(setSelectedPage(4))} style={dashboardState.selectedPage == 4 ? {borderRadius: "15px", backgroundColor: "#c4ad83"} : {borderRadius: "15px", backgroundColor: "#242424", paddingRight: "15px", paddingLeft: "15px"}}>
                 <IconFileAnalytics  style={{ width: rem(30), height: rem(30) }}
                                     stroke={1.5}
-                                    color={dashboardState.selectedPage == 4 ? "white" : "black"}>
+                                    color={dashboardState.selectedPage == 4 ? "#2E2E2E" : "#c4ad83"}>
                 </IconFileAnalytics>
             </Button>}
             
             
-            {userState.userProfile?.role == 2 && <Button onClick={() => dispatch(setSelectedPage(5))} style={dashboardState.selectedPage == 5 ? {borderRadius: "15px"} : {borderRadius: "15px", backgroundColor: "white"}}>
+            {userState.userProfile?.role == 2 && <Button onClick={() => dispatch(setSelectedPage(5))} style={dashboardState.selectedPage == 5 ? {borderRadius: "15px", backgroundColor: "#c4ad83", } : {borderRadius: "15px", backgroundColor: "#242424", paddingRight: "15px", paddingLeft: "15px"}}>
                 <IconUsersGroup  style={{ width: rem(30), height: rem(30) }}
                                  stroke={1.5}
-                                 color={dashboardState.selectedPage == 5 ? "white" : "black"}>
+                                 color={dashboardState.selectedPage == 5 ? "#2E2E2E" : "#c4ad83"}>
                 </IconUsersGroup>
             </Button>}
 
-            {userState.userProfile?.role != undefined && userState.userProfile?.role >= 1 && <Button onClick={() => dispatch(setSelectedPage(6))} style={dashboardState.selectedPage == 6 ? {borderRadius: "15px"} : {borderRadius: "15px", backgroundColor: "white"}}>
+            {userState.userProfile?.role != undefined && userState.userProfile?.role >= 1 && <Button onClick={() => dispatch(setSelectedPage(6))} style={dashboardState.selectedPage == 6 ? {borderRadius: "15px", backgroundColor: "#c4ad83"} : {borderRadius: "15px", backgroundColor: "#242424", paddingRight: "15px", paddingLeft: "15px"}}>
                 <IconAffiliate  style={{ width: rem(30), height: rem(30) }}
                                     stroke={1.5}
-                                    color={dashboardState.selectedPage == 6 ? "white" : "black"}>
+                                    color={dashboardState.selectedPage == 6 ? "#2E2E2E" : "#c4ad83"}>
                 </IconAffiliate>
             </Button>}
 
 
-        </div>
+        </Flex>
     </AppShell.Footer>
 }

@@ -55,7 +55,7 @@ export const Accounts = () => {
                 </div>
             </Modal>
 
-            <div style={{ width:"100%", position: 'fixed',left:"0px", padding: "15px", top: '50px', backgroundColor: '#FEFEFE', zIndex: '1',paddingTop: "10px",paddingBottom: "15px"}}>
+            <div style={{ width:"100%", position: 'fixed',left:"0px", padding: "15px", top: '50px', zIndex: '1',paddingTop: "10px",paddingBottom: "15px"}}>
                 <TextInput
                     style={{  }}
                     description="Find User"

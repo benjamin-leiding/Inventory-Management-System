@@ -1,4 +1,4 @@
-import { AppShell, Burger, Flex, Button, Drawer, UnstyledButton } from '@mantine/core';
+import { AppShell, Burger, Flex, Button, Drawer, UnstyledButton, Title } from '@mantine/core';
 import { useDisclosure } from '@mantine/hooks';
 import {useAppDispatch, useAppSelector } from '../Hooks';
 import {logout, selectUser } from '../state/UserState';
@@ -7,11 +7,13 @@ import { Card, Image, Text, Badge, Group } from '@mantine/core';
 import { IconUserBolt, IconUserShare } from '@tabler/icons-react'
 import { rem } from '@mantine/core';
 import {selectDashboard, setSelectedPage } from '../state/DashboardState';
+import { useMantineTheme } from '@mantine/core';
 export const Header = () => {
 
     const userState = useAppSelector(selectUser)
     const dashboardState = useAppSelector(selectDashboard)
     const dispatch = useAppDispatch()
+    const theme = useMantineTheme();
 
     const [opened, { open, close }] = useDisclosure(false);
 
@@ -26,25 +28,29 @@ export const Header = () => {
                 pr={"15px"}
                 pl={"15px"}
             >
-                {dashboardState.selectedPage == 1 && <>{userState.userProfile!.role === 0 ? <h4>Find Items</h4> : <h4>Item Management</h4>}</>}
+                {dashboardState.selectedPage == 1 && <>{userState.userProfile!.role === 0 ? <Title order={1}>Find Items</Title> : <Text color={"sand.2"} fw={800}>Item Management</Text>}</>}
                 {dashboardState.selectedPage == 2 && <h4>My rented Items</h4>}
                 {dashboardState.selectedPage == 3 && <h4>Facility Management</h4>}
                 {dashboardState.selectedPage == 4 && <h4>All Rent Contracts</h4>}
                 {dashboardState.selectedPage == 5 && <h4>Account Management</h4>}
                 {dashboardState.selectedPage == 6 && <h4>Project Management</h4>}
 
-                <UnstyledButton onClick={open}><IconUserShare  style={{ width: rem(30), height: rem(30) }}
-                                                      stroke={1.5}
-                                                      color="#1C7ED6"></IconUserShare></UnstyledButton>
+                <UnstyledButton onClick={open}  >
+                    <IconUserShare
+                        color={theme.colors.emerald[3]}
+                                   style={{ width: rem(30), height: rem(30) }}
+                                   stroke={1.5}
+                    ></IconUserShare>
+                </UnstyledButton>
             </Flex>
             <Drawer opened={opened} onClose={close} position="top" size="xl" title="User Profile">
                 <Card shadow="sm" padding="lg" radius="md" withBorder>
 
                     <Group justify="space-between" mt="md" mb="xs" >
                         <Text fw={500}>Hello {userState.userProfile?.username}!</Text>
-                        <Badge color={userState.userProfile?.role == 2 ? "orange" : userState.userProfile?.role == 1 ? "yellow": "green"}>{userState.userProfile?.role == 0 ? " student" :
+                        <Badge color={userState.userProfile?.role == 2 ? "rot.8" : userState.userProfile?.role == 1 ? "orange.4": "emerald.8"}>{userState.userProfile?.role == 0 ? " student" :
                             userState.userProfile?.role == 1 ? " employee" :
-                                userState.userProfile?.role == 2 ? " Professer" :
+                                userState.userProfile?.role == 2 ? " Professor" :
                                     "impossible"
                         }</Badge>
                     </Group>
@@ -81,13 +87,15 @@ export const Header = () => {
                             <QRCode
                                 size={256}
                                 style={{ height: "auto",  width: "80%" }}
+                                fgColor={"#f9f9f9"}
+                                bgColor={"#2E2E2E"}
                                 value={userState.userProfile!._id}
                                 viewBox={`0 0 256 256`}
                             />
                         </div>
                     </Card.Section>
                     <div>
-                        <Button onClick={() => {dispatch(setSelectedPage(1));dispatch(logout())}} color={"grey"}>Logout</Button>
+                        <Button color={"rot.8"} onClick={() => {dispatch(setSelectedPage(1));dispatch(logout())}}>Logout</Button>
                     </div>
 
                 </Card>

@@ -1,4 +1,4 @@
-import { Button, Card, Group, Modal, Textarea, TextInput, Text, Badge, Switch, Drawer } from "@mantine/core"
+import { Button, Card, Group, Modal, Textarea, TextInput, Text, Badge, Switch, Drawer, Flex } from "@mantine/core"
 import { useDisclosure } from "@mantine/hooks"
 import {useCallback, useRef, useState } from "react"
 import {useAppDispatch, useAppSelector } from "../../Hooks"
@@ -368,8 +368,8 @@ export const Items = () => {
 
         {openedScreen === "Items" && <>
             <div style={{width: "100%", display: "flex", justifyContent: "space-between", alignItems: "center"}}>
-                <Button style={{marginRight: "10px"}} onClick={handlerCreateItem.open}>Create Item</Button>
-                <Button style={{marginRight: "10px"}} onClick={handlerDepositItem.open}>Deposit Item</Button>
+                <Button color={"sand.9"} style={{marginRight: "10px"}} onClick={handlerCreateItem.open}>Create Item</Button>
+                <Button color={"sand.9"} style={{marginRight: "10px"}} onClick={handlerDepositItem.open}>Deposit Item</Button>
             </div>
 
             <br />
@@ -385,6 +385,7 @@ export const Items = () => {
             </div>
 
             <Switch
+                color={"sand.4"}
                 checked={onlyAvailable}
                 onChange={(event) => setOnlyAvailable(event.currentTarget.checked)}
                 label={"Only show available Items"}
@@ -395,31 +396,38 @@ export const Items = () => {
             {filterItemsByRentedOut(filterItems(itemState.items, searchTerm), onlyAvailable).map(item => {
                 return <div>
                     <Card shadow="sm" padding="xs" mb="10px" radius="md" withBorder>
-                        <Text  size="xs" c="dimmed">Id</Text>
-                        <Text size="xs" mb={"xs"}>{item._id}</Text>
-                        <Text  size="xs" c="dimmed">Name</Text>
-                        <Text>{item.name}</Text>
-                        <Text size="xs" c="dimmed">Description</Text>
-                        <Text mb={"xs"}>{item.description}</Text>
-
-                        <div style={{display: "flex", justifyContent: "space-between", alignItems: "center"}}>
-                            <Badge size="sm" mb={"5px"}>
-                                Created: {Intl.DateTimeFormat("de-DE", {
-                                year: "numeric",
-                                month: "numeric",
-                                day: "numeric",
-                                timeZone: "UTC",
-                            }).format(new Date(item.createdAt))}
-                            </Badge>
-
+                        <Flex direction={"row"} align={"center"} justify={"space-between"}>
+                            <Flex direction={"column"}>
+                                <Text  size="xs" c="dimmed">Id</Text>
+                                <Text size="xs" mb={"xs"}>{item._id}</Text>
+                            </Flex>
                             {
-                                item?.rentedOut && <Badge color={"red"} size="sm" mb={"5px"}>
+                                item?.rentedOut && <Badge color={"rot.5"} size="sm">
                                     rented out
                                 </Badge>
                             }
+                        </Flex>
 
-                            <Button onClick={() => {setOpenedScreen("Details"); setItem(item)}}>Details</Button>
-                        </div>
+                        <Text  size="xs" c="dimmed">Name</Text>
+                        <Text mb={"xs"} color={"emerald.6"} size={"md"} fw={"bold"}>{item.name}</Text>
+                        <Text size="xs" c="dimmed">Description</Text>
+                        <Text mb={"xs"}>{item.description}</Text>
+
+                        <Flex justify={"space-between"} align={"center"}>
+                            <Flex direction={"column"}>
+                                <Text size="xs" c="dimmed">Created</Text>
+                                <Text size="sm" color={"sand.1"}>
+                                    {Intl.DateTimeFormat("de-DE", {
+                                        year: "numeric",
+                                        month: "numeric",
+                                        day: "numeric",
+                                        timeZone: "UTC",
+                                    }).format(new Date(item.createdAt))}
+                                </Text>
+                            </Flex>
+
+                            <Button color={"sand.7"} autoContrast onClick={() => {setOpenedScreen("Details"); setItem(item)}}>Details</Button>
+                        </Flex>
                     </Card>
                 </div>
             })}
@@ -436,6 +444,8 @@ export const Items = () => {
                 <div style={{   width: "100%", display: "flex", justifyContent: "center", padding: "25px" }}>
                     <QRCode
                         size={256}
+                        bgColor={"#242424"}
+                        fgColor={"#f9f9f9"}
                         style={{ height: "auto",  width: "80%" }}
                         value={item._id}
                         viewBox={`0 0 256 256`}

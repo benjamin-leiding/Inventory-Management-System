@@ -5,7 +5,13 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="93d234cc-4eef-45a4-8c60-cf7aa84ab3a5" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/server/Controllers/ShelfController.js" beforeDir="false" afterPath="$PROJECT_DIR$/server/Controllers/ShelfController.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/UI/Accounts.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/UI/Accounts.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/UI/Header.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/UI/Header.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/UI/Management/Buildings.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/UI/Management/Buildings.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/UI/Management/Items.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/UI/Management/Items.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/UI/Menu.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/UI/Menu.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/index.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/index.tsx" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -221,7 +227,7 @@
       <workItem from="1714484917970" duration="608000" />
       <workItem from="1715930682896" duration="263000" />
       <workItem from="1721814776776" duration="8508000" />
-      <workItem from="1721828813051" duration="7459000" />
+      <workItem from="1721828813051" duration="14320000" />
     </task>
     <servers />
   </component>

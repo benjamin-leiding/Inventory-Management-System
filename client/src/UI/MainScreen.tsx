@@ -14,6 +14,8 @@ import { Items } from './Management/Items';
 import { ManagePanel } from './ManagePanel';
 import { OwnRentContracts } from './OwnRentContracts';
 import {getAllHistoryContractsAsync} from "../state/HistoryContractState";
+import { Projects } from './Projects';
+import { getProjectsAsync } from '../state/ProjectState';
 
 export const MainScreen = () => {
 
@@ -30,6 +32,7 @@ export const MainScreen = () => {
         dispatch(getAllRentContractsAsync())
         dispatch(getOwnRentContractsAsync())
         dispatch(getAllHistoryContractsAsync())
+        dispatch(getProjectsAsync())
 
     },[]) // The empty dependency array ensures that this effect runs only once after mount
 
@@ -59,6 +62,8 @@ export const MainScreen = () => {
         </div>}
 
         {dashboardState.selectedPage == 5 && <Accounts></Accounts>}
+
+        {dashboardState.selectedPage == 6 && <Projects></Projects>}
 
 
     </AppShell.Main>

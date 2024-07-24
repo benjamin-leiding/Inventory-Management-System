@@ -1,4 +1,4 @@
-import { Button, Modal, Textarea, TextInput, Text } from "@mantine/core"
+import { Button, Modal, Textarea, TextInput, Text, Select } from "@mantine/core"
 import { useDisclosure } from "@mantine/hooks"
 import { useState } from "react"
 import {QrScanner} from '@yudiel/react-qr-scanner';
@@ -25,6 +25,8 @@ export const RentContracts = () => {
     const [itemId, setItemId] = useState("")
 
     const [qrScanneritemId, setQrScanneritemId] = useState(false)
+
+    const [rentContractType, setrentContractType] = useState<string | null>('User');
 
     const [rentUserId, setRentUserId] = useState("")
 
@@ -68,6 +70,14 @@ export const RentContracts = () => {
                     </div>
                 }
             </div>
+
+            <br />
+
+            <Select
+                description="Rent Contract User Type"
+                data={["User", "Project"]}
+                value={rentContractType}
+                onChange={setrentContractType} />
 
             <br />
 
@@ -122,7 +132,7 @@ export const RentContracts = () => {
 
             <div style={{width: "100%", display: "flex", justifyContent: "flex-end"}}>
                 <Button  onClick={() => {
-                    dispatch(createRentContractAsync({itemId: itemId, rentUserId: rentUserId, contractorId: contractorId!, expires: expires!})).unwrap().then(() => {
+                    dispatch(createRentContractAsync({itemId: itemId, contractType: rentContractType!, rentUserId: rentUserId, contractorId: contractorId!, expires: expires!})).unwrap().then(() => {
                         dispatch(getAllRentContractsAsync())
                         dispatch(getOwnRentContractsAsync())
                         dispatch(getItemsAsync())

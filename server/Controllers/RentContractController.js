@@ -2,6 +2,7 @@ const User = require("../Models/UserModel");
 const Room = require("../Models/RoomModel");
 const Shelf = require("../Models/ShelfModel");
 const Item = require("../Models/ItemModel");
+const Project = require("../Models/ProjectModel")
 const HistoryContract = require("../Models/HistoryContract");
 const RentContract = require("../Models/RentContract");
 const { createSecretToken } = require("../util/SecretToken");
@@ -13,7 +14,7 @@ module.exports.CreateRentContract = async (req, res, next) => {
 
     try {
 
-        const { itemId, rentUserId, contractorId, expires } = req.body;
+        const { itemId, contractType, rentUserId, contractorId, expires } = req.body;
 
         // Check if the itemId is a valid ObjectId
         if (!mongoose.Types.ObjectId.isValid(itemId)) {
@@ -31,11 +32,22 @@ module.exports.CreateRentContract = async (req, res, next) => {
             return res.status(201).json({ message: "Invalid rentUserId", success: false });
         }
 
-        // Check if rent user exists
-        const rentUser = await User.findById(rentUserId);
-        if (!rentUser) {
-            return res.status(201).json({ message: "Rent user not found", success: false });
+        if(contractType == "User"){
+            // Check if rent user exists
+            const rentUser = await User.findById(rentUserId);
+            if (!rentUser) {
+                return res.status(201).json({ message: "Rent user not found", success: false });
+            }
         }
+
+        if(contractType == "Project"){
+            // Check if rent user exists
+            const rentUser = await Project.findById(rentUserId);
+            if (!rentUser) {
+                return res.status(201).json({ message: "Rent user not found", success: false });
+            }
+        }
+
 
         // Check if contractorId is a valid ObjectId
         if (!mongoose.Types.ObjectId.isValid(contractorId)) {
@@ -66,7 +78,7 @@ module.exports.CreateRentContract = async (req, res, next) => {
         const ifItemHasLocationDeleteLocation = false
 
 
-        const rentContract = await RentContract.create({ itemId, rentUserId, contractorId, expires });
+        const rentContract = await RentContract.create({ itemId, contractType, rentUserId, contractorId, expires });
 
         res
             .status(201)
@@ -90,23 +102,51 @@ module.exports.GetAllRentContracts = async (req, res, next) => {
         if(rentContracts){
             let results = []
             for(const index in rentContracts){
-                const rentUser = await User.findById(rentContracts[index].rentUserId)
+
+
                 const contractor = await User.findById(rentContracts[index].contractorId)
                 const item = await Item.findById(rentContracts[index].itemId)
-                let result = {
-                    _id : rentContracts[index]._id,
-                    itemId : item._id,
-                    itemName : item.name,
-                    rentUserId : rentUser._id,
-                    rentUserUserName : rentUser.username,
-                    rentUserEmail: rentUser.email,
-                    contractorId : contractor._id,
-                    contractorUserName : contractor.username,
-                    contractorEmail : contractor.email,
-                    createdAt : rentContracts[index].createdAt,
-                    expires: rentContracts[index].expires
+
+                if(rentContracts[index].contractType == "User"){
+                    const user = await User.findById(rentContracts[index].rentUserId)
+
+                    let result = {
+                        _id : rentContracts[index]._id,
+                        itemId : item._id,
+                        itemName : item.name,
+                        rentUserId : user._id,
+                        rentUserUserName : user.username,
+                        rentUserEmail: user.email,
+                        contractorId : contractor._id,
+                        contractorUserName : contractor.username,
+                        contractorEmail : contractor.email,
+                        createdAt : rentContracts[index].createdAt,
+                        expires: rentContracts[index].expires
+                    }
+                    results.push(result)
                 }
-                results.push(result)
+                if(rentContracts[index].contractType == "Project"){
+                    const project = await Project.findById(rentContracts[index].rentUserId)
+                    const owner = await User.findById(project.ownerId)
+
+                    let result = {
+                        _id : rentContracts[index]._id,
+                        itemId : item._id,
+                        itemName : item.name,
+                        rentUserId : project._id,
+                        rentUserUserName : project.name,
+                        rentUserEmail: owner.email,
+                        contractorId : contractor._id,
+                        contractorUserName : contractor.username,
+                        contractorEmail : contractor.email,
+                        createdAt : rentContracts[index].createdAt,
+                        expires: rentContracts[index].expires
+                    }
+                    results.push(result)
+                }
+
+
+
 
             }
 

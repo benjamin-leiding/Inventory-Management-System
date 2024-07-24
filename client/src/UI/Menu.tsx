@@ -1,6 +1,6 @@
 import { AppShell, Burger, Flex, Button } from '@mantine/core';
 
-import {IconBuildingStore, IconUsersGroup, IconFile3d, IconLibrary, IconLibraryPhoto, IconBuildingWarehouse, IconFunction, IconStatusChange, IconFileStack,IconFileAnalytics, IconBuilding, IconBoxMultiple} from '@tabler/icons-react'
+import {IconBuildingStore, IconUsersGroup, IconFile3d, IconLibrary, IconLibraryPhoto, IconBuildingWarehouse, IconFunction, IconStatusChange, IconFileStack,IconFileAnalytics, IconBuilding, IconBoxMultiple, IconAffiliateFilled, IconAffiliate} from '@tabler/icons-react'
 import { rem } from '@mantine/core';
 import {useAppDispatch, useAppSelector } from '../Hooks';
 import { selectDashboard, setSelectedPage } from '../state/DashboardState';
@@ -43,13 +43,20 @@ export const Menu = () => {
                                     color={dashboardState.selectedPage == 4 ? "white" : "black"}>
                 </IconFileAnalytics>
             </Button>}
-
-
+            
+            
             {userState.userProfile?.role == 2 && <Button onClick={() => dispatch(setSelectedPage(5))} style={dashboardState.selectedPage == 5 ? {borderRadius: "15px"} : {borderRadius: "15px", backgroundColor: "white"}}>
                 <IconUsersGroup  style={{ width: rem(30), height: rem(30) }}
                                  stroke={1.5}
                                  color={dashboardState.selectedPage == 5 ? "white" : "black"}>
                 </IconUsersGroup>
+            </Button>}
+
+            {userState.userProfile?.role != undefined && userState.userProfile?.role >= 1 && <Button onClick={() => dispatch(setSelectedPage(6))} style={dashboardState.selectedPage == 6 ? {borderRadius: "15px"} : {borderRadius: "15px", backgroundColor: "white"}}>
+                <IconAffiliate  style={{ width: rem(30), height: rem(30) }}
+                                    stroke={1.5}
+                                    color={dashboardState.selectedPage == 6 ? "white" : "black"}>
+                </IconAffiliate>
             </Button>}
 
 

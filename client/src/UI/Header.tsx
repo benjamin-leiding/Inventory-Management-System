@@ -31,6 +31,7 @@ export const Header = () => {
                 {dashboardState.selectedPage == 3 && <h4>Facility Management</h4>}
                 {dashboardState.selectedPage == 4 && <h4>All Rent Contracts</h4>}
                 {dashboardState.selectedPage == 5 && <h4>Account Management</h4>}
+                {dashboardState.selectedPage == 6 && <h4>Project Management</h4>}
 
                 <UnstyledButton onClick={open}><IconUserShare  style={{ width: rem(30), height: rem(30) }}
                                                       stroke={1.5}

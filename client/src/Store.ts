@@ -5,6 +5,7 @@ import { dashboardSlice } from './state/DashboardState';
 import { depositionsSlice } from './state/DepositionState';
 import { historyContractsSlice } from './state/HistoryContractState';
 import { itemsSlice } from './state/ItemState';
+import { projectSlice } from './state/ProjectState';
 import { rentContractsSlice } from './state/RentContractState';
 import { roomsSlice } from './state/RoomState';
 import { shelfSlice } from './state/ShelfState';
@@ -23,7 +24,8 @@ const store = configureStore({
         items: itemsSlice.reducer,
         rentContracts: rentContractsSlice.reducer,
         depositions: depositionsSlice.reducer,
-        historyContracts: historyContractsSlice.reducer
+        historyContracts: historyContractsSlice.reducer,
+        projects: projectSlice.reducer
     }
 });
 

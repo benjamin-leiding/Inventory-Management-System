@@ -24,18 +24,66 @@ export const AllRentContracts = () => {
         {openedScreen === "Contracts" && <>
             <RentContracts></RentContracts>
             <br />
-            <Tabs defaultValue="Current">
+            <Tabs defaultValue="Active User">
                 <Tabs.List>
-                    <Tabs.Tab value="Current" >
-                        Current Contracts
+                    <Tabs.Tab value="Active User" >
+                        User
+                    </Tabs.Tab>
+                    <Tabs.Tab value="Active Project">
+                        Project
                     </Tabs.Tab>
                     <Tabs.Tab value="History">
-                        History Contracts
+                        History
                     </Tabs.Tab>
                 </Tabs.List>
 
-                <Tabs.Panel value="Current">
-                    {contractState.rentContracts.length === 0 ? <Text>There are no current rentcontracts</Text>: <br></br>}
+                <Tabs.Panel value="Active User">
+                    {contractState.rentContracts.length === 0 ? <Text>There are no active user rentcontracts</Text>: <br></br>}
+
+                    {sortRentContractsByExpires(filterContractTypeUser(contractState.rentContracts)).map(contract => {
+                        return <Card shadow="sm" padding="xs" mb="10px" radius="md" withBorder>
+                            <div style={{display: "flex", justifyContent: "space-between", alignItems: "center"}}>
+                                <div>
+                                    <Text  size="sm" c="dimmed">Itemname</Text>
+                                    <Text>{contract.itemName}</Text>
+                                </div>
+
+
+                                <div>
+                                    <Text  size="sm" c="dimmed">Borrower</Text>
+                                    <Text>{contract.rentUserUserName}</Text>
+                                </div>
+
+                            </div>
+                            <br/>
+                            <div style={{display: "flex", justifyContent: "space-between", alignItems: "center"}}>
+                                <div>
+                                    <Text  size="sm" c="dimmed">{isDateInPast(new Date(contract.expires)) ? "Expired" : "Expires"}</Text>
+                                    <Badge color={isDateInPast(new Date(contract.expires)) ? "red" : "green"}><Text>
+                                        {Intl.DateTimeFormat("de-DE", {
+                                            year: "numeric",
+                                            month: "numeric",
+                                            day: "numeric",
+                                            timeZone: "UTC",
+                                        }).format(new Date(contract.expires))}
+                                    </Text></Badge>
+                                </div>
+
+
+                                <Button
+                                    style={{borderRadius: "15px"}}
+                                    onClick={() => {
+                                        setOpenedScreen("Contract")
+                                        setContract(contract)
+                                    }}>Details</Button>
+                            </div>
+
+                        </Card>
+                    })}
+                </Tabs.Panel>
+
+                <Tabs.Panel value="Current Project">
+                    {contractState.rentContracts.length === 0 ? <Text>There are no active Project rentcontracts</Text>: <br></br>}
 
                     {sortRentContractsByExpires(contractState.rentContracts).map(contract => {
                         return <Card shadow="sm" padding="xs" mb="10px" radius="md" withBorder>
@@ -226,4 +274,8 @@ export function sortRentContractsByExpires(contracts: RentContract[]): RentContr
     // Sorting the contracts array by the expires date in ascending order
     const sortedContracts = [...contracts].sort((a, b) => new Date(a.expires).getTime() - new Date(b.expires).getTime());
     return sortedContracts;
+}
+
+export function filterContractTypeUser(contracts: RentContract[]):RentContract[]{
+    return contracts.filter(contract => contract.contractType == "User")
 }

@@ -9,6 +9,7 @@ const userRoute = require("./Routes/UserRoute");
 const roomRoute = require("./Routes/RoomRoute")
 const shelfRoute = require("./Routes/ShelfRoute")
 const itemRoute = require("./Routes/ItemRoute")
+const projectRoute = require("./Routes/ProjectRoute")
 const depositionRoute = require("./Routes/DepositionRoute")
 const rentContractRoute = require("./Routes/RentContractRoute")
 const historyContractRoute = require("./Routes/HistoryContractRoute")
@@ -106,6 +107,7 @@ app.use("/deposition", depositionRoute)
 
 app.use("/historyContract", historyContractRoute)
 
+app.use("/project", projectRoute)
 // Serve a single uploaded image based on ID
 app.get('/image/:imgUrl', (req, res) => {
     const imgUrl = req.params.imgUrl; // Get the ID from the URL parameter

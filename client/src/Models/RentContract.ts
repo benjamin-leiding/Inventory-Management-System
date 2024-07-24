@@ -2,6 +2,7 @@ export interface RentContract{
     _id : string,
     itemId : string,
     itemName : string,
+    contractType: string,
     rentUserId : string,
     rentUserUserName : string,
     rentUserEmail: string,

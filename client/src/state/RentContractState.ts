@@ -23,12 +23,13 @@ const initialState : RentContractState = {
 
 export const createRentContractAsync = createAsyncThunk(
     'createRentContractAsync',
-    async ({itemId, rentUserId, contractorId, expires} : {itemId : string, rentUserId : string, contractorId: string, expires: Date}) => {
+    async ({itemId,contractType, rentUserId, contractorId, expires} : {itemId : string, contractType: string, rentUserId : string, contractorId: string, expires: Date}) => {
         const createRentContractUrl = BackendBaseUrl + "/rentContract/create"
         const data = await axios.post(
             createRentContractUrl,
             {
                 itemId : itemId,
+                contractType: contractType,
                 rentUserId : rentUserId,
                 contractorId : contractorId,
                 expires: expires
@@ -159,11 +160,9 @@ export const rentContractsSlice = createSlice({
         builder
             .addCase(getAllRentContractsAsync.pending, (state, action) => {
                 console.log("getAllRentContractsAsync is loading")
-
             })
             .addCase(getAllRentContractsAsync.fulfilled, (state, action) => {
                 console.log("getAllRentContractsAsync is fulfilled")
-
                 console.log(action.payload)
                 state.rentContracts = action.payload.rentContracts
             })

@@ -55,13 +55,13 @@ export const printItemAsync = createAsyncThunk(
 
         
         console.log(itemId)
-        
+
         const data = await axios.post(
             printItemAsyncUrl,
             {itemId: itemId},
             {
                 headers: {
-                    'Content-Type': 'multipart/form-data', // Set content type to multipart/form-data
+                    'Content-Type': 'application/json', // Set content type to multipart/form-data
                     'token': window.localStorage.getItem(Keys.Access_token)
                 },
                 withCredentials: true

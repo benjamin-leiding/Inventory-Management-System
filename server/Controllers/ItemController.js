@@ -67,8 +67,10 @@ module.exports.CreateItem = async (req, res, next) => {
 module.exports.PrintItem = async (req, res, next) => {
 
     try {
-        const { itemId } = req.body;
+        console.log("csohcisbvizoebsvbislabvabi")
         console.log(req.body)
+        const { itemId } = req.body;
+
         console.log(itemId)
         // Create the item in the database
         console.log("Print ENdpoint is being called")

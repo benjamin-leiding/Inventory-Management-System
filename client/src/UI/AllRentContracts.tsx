@@ -82,10 +82,10 @@ export const AllRentContracts = () => {
                     })}
                 </Tabs.Panel>
 
-                <Tabs.Panel value="Current Project">
+                <Tabs.Panel value="Active Project">
                     {contractState.rentContracts.length === 0 ? <Text>There are no active Project rentcontracts</Text>: <br></br>}
 
-                    {sortRentContractsByExpires(contractState.rentContracts).map(contract => {
+                    {sortRentContractsByExpires(filterContractTypeProject(contractState.rentContracts)).map(contract => {
                         return <Card shadow="sm" padding="xs" mb="10px" radius="md" withBorder>
                             <div style={{display: "flex", justifyContent: "space-between", alignItems: "center"}}>
                                 <div>
@@ -233,6 +233,10 @@ export const AllRentContracts = () => {
                     <Text>Borrower</Text>
                 </div>
                 <div style={{display: "flex", flexDirection: "column", alignItems: "flex-start"}}>
+
+                    <Text  size="sm" c="dimmed">Contract Type</Text>
+                    <Text>{contract.contractType}</Text>
+
                     <Text  size="sm" c="dimmed">Id</Text>
                     <Text>{contract.rentUserId}</Text>
 
@@ -278,4 +282,8 @@ export function sortRentContractsByExpires(contracts: RentContract[]): RentContr
 
 export function filterContractTypeUser(contracts: RentContract[]):RentContract[]{
     return contracts.filter(contract => contract.contractType == "User")
+}
+
+export function filterContractTypeProject(contracts: RentContract[]):RentContract[]{
+    return contracts.filter(contract => contract.contractType == "Project")
 }

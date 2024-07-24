@@ -1,4 +1,4 @@
-import { Button, Modal, Textarea, TextInput, Text, Select } from "@mantine/core"
+import { Button, Modal, Textarea, TextInput, Text, Select, ComboboxItem } from "@mantine/core"
 import { useDisclosure } from "@mantine/hooks"
 import { useState } from "react"
 import {QrScanner} from '@yudiel/react-qr-scanner';
@@ -9,10 +9,14 @@ import { selectUser } from "../../state/UserState";
 import {createRentContractAsync, endRentContractAsync, getAllRentContractsAsync, getOwnRentContractsAsync} from "../../state/RentContractState";
 import { getItemsAsync } from "../../state/ItemState";
 import { getAllHistoryContractsAsync } from "../../state/HistoryContractState";
+import { selectProjects } from "../../state/ProjectState";
+import { notifications } from "@mantine/notifications";
 
 export const RentContracts = () => {
 
     const userState = useAppSelector(selectUser)
+
+    const projectState = useAppSelector(selectProjects)
 
     const dispatch = useAppDispatch()
 
@@ -29,6 +33,8 @@ export const RentContracts = () => {
     const [rentContractType, setrentContractType] = useState<string | null>('User');
 
     const [rentUserId, setRentUserId] = useState("")
+
+    const [rentUserProject, setrentUserProject] = useState<ComboboxItem | null>(null);
 
     const [qrScannerRentUserId, setQrScannerRentUserId] = useState(false)
 
@@ -80,8 +86,7 @@ export const RentContracts = () => {
                 onChange={setrentContractType} />
 
             <br />
-
-            <div style={{display: "flex", flexDirection: "column", borderRadius: "5px", border: qrScannerRentUserId ? "2px solid #1C7ED6" : "", padding: qrScannerRentUserId ? "5px" : "0px" }}>
+            {rentContractType == "User" && <div style={{display: "flex", flexDirection: "column", borderRadius: "5px", border: qrScannerRentUserId ? "2px solid #1C7ED6" : "", padding: qrScannerRentUserId ? "5px" : "0px" }}>
                 <div style={{display: "flex", alignItems: "flex-end", justifyContent: "space-between"}}>
                     <Textarea
                         description="Rent User Id"
@@ -106,7 +111,18 @@ export const RentContracts = () => {
                         />
                     </div>
                 }
-            </div>
+            </div>}
+
+            {rentContractType == "Project" && <Select
+                description={"select project"}
+                data={projectState.projects.map(project => ({
+                    value: project._id,
+                    label: project.name
+                }))}
+                value={rentUserProject ? rentUserProject.value : null}
+                onChange={(_value, option) => setrentUserProject(option)}
+            />}
+
 
             <br />
 
@@ -132,15 +148,35 @@ export const RentContracts = () => {
 
             <div style={{width: "100%", display: "flex", justifyContent: "flex-end"}}>
                 <Button  onClick={() => {
-                    dispatch(createRentContractAsync({itemId: itemId, contractType: rentContractType!, rentUserId: rentUserId, contractorId: contractorId!, expires: expires!})).unwrap().then(() => {
-                        dispatch(getAllRentContractsAsync())
-                        dispatch(getOwnRentContractsAsync())
-                        dispatch(getItemsAsync())
-                    })
-                    setItemId("")
-                    setRentUserId("")
-                    setExpires(null)
-                    handlerCreateRentcontract.close()
+                    if(rentContractType == "Project"){
+                        if(rentUserProject == null){
+                            notifications.show({
+                                title: "Error creating Contract",
+                                message: "Project field cant be empty",
+                            })
+                        }else{
+                            dispatch(createRentContractAsync({itemId: itemId, contractType: rentContractType!, rentUserId: rentUserProject.value, contractorId: contractorId!, expires: expires!})).unwrap().then(() => {
+                                dispatch(getAllRentContractsAsync())
+                                dispatch(getOwnRentContractsAsync())
+                                dispatch(getItemsAsync())
+                            })
+                            setItemId("")
+                            setRentUserId("")
+                            setExpires(null)
+                            handlerCreateRentcontract.close()
+                        }
+                    }else{
+                        dispatch(createRentContractAsync({itemId: itemId, contractType: rentContractType!, rentUserId: rentContractType == "User" ? rentUserId : rentUserProject!.value, contractorId: contractorId!, expires: expires!})).unwrap().then(() => {
+                            dispatch(getAllRentContractsAsync())
+                            dispatch(getOwnRentContractsAsync())
+                            dispatch(getItemsAsync())
+                        })
+                        setItemId("")
+                        setRentUserId("")
+                        setExpires(null)
+                        handlerCreateRentcontract.close()
+                    }
+
                 }}>Create</Button>
 
             </div>

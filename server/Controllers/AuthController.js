@@ -22,11 +22,16 @@ module.exports.Signup = async (req, res, next) => {
                 .json({ message: username + " registered and logged in as prof", success: true, token : token, user : user });
 
         }else{
-            const user = await User.create({ email, password, username, createdAt});
-            const token = createSecretToken(user._id);
-            return res
-                .status(201)
-                .json({ message: username + " registered and logged in as student", success: true, token : token, user : user });
+            try{
+                const user = await User.create({ email, password, username, createdAt});
+                const token = createSecretToken(user._id);
+                return res
+                    .status(201)
+                    .json({ message: username + " registered and logged in as student", success: true, token : token, user : user });
+            }catch (error){
+                res.status(500).json({message: "error", success: false})
+            }
+
         }
 
 

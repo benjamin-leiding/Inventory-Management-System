@@ -157,7 +157,6 @@ export const userSlice = createSlice({
                 console.log("registerAsync is failed")
                 console.log(error)
                 state.errorText = error.message
-
                 state.status = 'failed';
             });
 

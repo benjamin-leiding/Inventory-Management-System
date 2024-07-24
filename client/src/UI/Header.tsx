@@ -28,7 +28,7 @@ export const Header = () => {
                 pr={"15px"}
                 pl={"15px"}
             >
-                {dashboardState.selectedPage == 1 && <>{userState.userProfile!.role === 0 ? <Title order={1}>Find Items</Title> : <Text color={"sand.2"} fw={800}>Item Management</Text>}</>}
+                {dashboardState.selectedPage == 1 && <Title order={1}>Items</Title>}
                 {dashboardState.selectedPage == 2 && <h4>My rented Items</h4>}
                 {dashboardState.selectedPage == 3 && <h4>Facility Management</h4>}
                 {dashboardState.selectedPage == 4 && <h4>All Rent Contracts</h4>}
@@ -37,7 +37,7 @@ export const Header = () => {
 
                 <UnstyledButton onClick={open}  >
                     <IconUserShare
-                        color={theme.colors.emerald[3]}
+                        color={theme.colors.pink[3]}
                                    style={{ width: rem(30), height: rem(30) }}
                                    stroke={1.5}
                     ></IconUserShare>
@@ -48,7 +48,7 @@ export const Header = () => {
 
                     <Group justify="space-between" mt="md" mb="xs" >
                         <Text fw={500}>Hello {userState.userProfile?.username}!</Text>
-                        <Badge color={userState.userProfile?.role == 2 ? "rot.8" : userState.userProfile?.role == 1 ? "orange.4": "emerald.8"}>{userState.userProfile?.role == 0 ? " student" :
+                        <Badge color={userState.userProfile?.role == 2 ? "pink.7" : userState.userProfile?.role == 1 ? "pink.4": "pink.1"}>{userState.userProfile?.role == 0 ? " student" :
                             userState.userProfile?.role == 1 ? " employee" :
                                 userState.userProfile?.role == 2 ? " Professor" :
                                     "impossible"
@@ -95,7 +95,7 @@ export const Header = () => {
                         </div>
                     </Card.Section>
                     <div>
-                        <Button color={"rot.8"} onClick={() => {dispatch(setSelectedPage(1));dispatch(logout())}}>Logout</Button>
+                        <Button color={"red.3"} onClick={() => {dispatch(setSelectedPage(1));dispatch(logout())}}>Logout</Button>
                     </div>
 
                 </Card>

@@ -25,54 +25,43 @@ const root = ReactDOM.createRoot(
 const theme = createTheme({
     /** Put your mantine theme override here */
     colors:{
-        sand: [
-            "#fcf6e6",
-            "#f2eada",
-            "#e0d2b9",
-            "#cdba95",
-            "#bea576",
-            "#b59762",
-            "#b09157",
-            "#9b7d46",
-            "#8b6f3c",
-            "#785f2e"
+        red: [
+            "#ffe9f3",
+            "#ffd2e0",
+            "#f9a2be",
+            "#f4709a",
+            "#ef457c",
+            "#ed2b68",
+            "#ed1b5f",
+            "#d30d4f",
+            "#be0145",
+            "#a7003a"
         ],
-        rot: [
-            "#fbefee",
-            "#f1dcda",
-            "#e5b5b1",
-            "#dd8c84",
-            "#d4695e",
-            "#cf5346",
-            "#ce483a",
-            "#b73a2c",
-            "#a33227",
-            "#8f281f"
+        purple: [
+            "#fbeefb",
+            "#f2d9f3",
+            "#e6b0e8",
+            "#db85de",
+            "#d060d4",
+            "#ca4acf",
+            "#c73ecd",
+            "#b030b6",
+            "#9d2aa2",
+            "#89208e"
         ],
-        emerald: [
-            "#e4fff5",
-            "#d3f9eb",
-            "#a8f0d8",
-            "#7ce8c2",
-            "#57e1af",
-            "#3edda4",
-            "#2eda9e",
-            "#1cc189",
-            "#07ac79",
-            "#009666"
+        pink: [
+            "#ffe8f9",
+            "#ffcfeb",
+            "#ff9cd3",
+            "#fe65ba",
+            "#fd3aa6",
+            "#fd1f98",
+            "#fe1092",
+            "#e3007e",
+            "#cb0070",
+            "#b20061"
         ],
-        orange: [
-            "#ffeee6",
-            "#feddd2",
-            "#f6baa5",
-            "#ef9375",
-            "#e9744c",
-            "#e65f31",
-            "#e55423",
-            "#cc4417",
-            "#b63b11",
-            "#9f3009"
-        ]
+
     }
 });
 

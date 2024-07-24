@@ -1,4 +1,4 @@
-import { Button, Card, Group, Modal, Textarea, TextInput, Text, Badge, Switch, Drawer, Flex } from "@mantine/core"
+import { Button, Card, Group, Modal, Textarea, TextInput, Text, Badge, Switch, Drawer, Flex, Title, Image, Pagination, Box } from "@mantine/core"
 import { useDisclosure } from "@mantine/hooks"
 import {useCallback, useRef, useState } from "react"
 import {useAppDispatch, useAppSelector } from "../../Hooks"
@@ -27,8 +27,6 @@ export const Items = () => {
 
     const dispatch = useAppDispatch()
 
-
-
     const [openedScreen, setOpenedScreen] = useState("Items")
 
 
@@ -37,7 +35,45 @@ export const Items = () => {
 
     const [onlyAvailable, setOnlyAvailable] = useState(false)
 
+    const data = chunk(
+        filterItemsByRentedOut(filterItems(itemState.items, searchTerm), onlyAvailable).map((_, index) => (_)),
+        5
+    );
 
+    const [activePage, setPage] = useState(1);
+
+    const items = data[activePage - 1]?.map((item) => (
+        <Box p="xs" mb="10px" style={{borderRadius: "15px", border: "1px solid #666666"}} >
+            <Flex direction={"row"} align={"center"} justify={"space-between"}>
+                <Flex direction={"column"}>
+                    <Text size="xs" c="dimmed">Name</Text>
+                    <Text mb={"xs"} color={"pink.3"} size={"md"} fw={"bold"}>{item.name}</Text>
+                </Flex>
+                {
+                    item?.rentedOut && <Badge color={"purple.9"} autoContrast size="sm">
+                        rented out
+                    </Badge>
+                }
+            </Flex>
+
+            <Text size="xs" c="dimmed">Description</Text>
+            <Text mb={"xs"}>{item.description.length > 70 ? item.description.slice(0, 70) + "..." : item.description}</Text>
+            <Flex justify={"space-between"} align={"center"}>
+                <Flex direction={"column"}>
+                    <Text size="xs" c="dimmed">Created</Text>
+                    <Text size="sm" color={"sand.1"}>
+                        {Intl.DateTimeFormat("de-DE", {
+                            year: "numeric",
+                            month: "numeric",
+                            day: "numeric",
+                            timeZone: "UTC",
+                        }).format(new Date(item.createdAt))}
+                    </Text>
+                </Flex>
+                <Button color={"pink.3"} variant="outline" autoContrast onClick={() => {setOpenedScreen("Details"); setItem(item)}}>Details</Button>
+            </Flex>
+        </Box>
+    ));
 
     const [openedCreateItem, handlerCreateItem] = useDisclosure(false)
 
@@ -367,70 +403,34 @@ export const Items = () => {
         </Modal>
 
         {openedScreen === "Items" && <>
-            <div style={{width: "100%", display: "flex", justifyContent: "space-between", alignItems: "center"}}>
-                <Button color={"sand.9"} style={{marginRight: "10px"}} onClick={handlerCreateItem.open}>Create Item</Button>
-                <Button color={"sand.9"} style={{marginRight: "10px"}} onClick={handlerDepositItem.open}>Deposit Item</Button>
-            </div>
+            <Flex justify={"space-between"} align={"center"}>
+                <Title order={4}>{filterItemsByRentedOut(filterItems(itemState.items, searchTerm), onlyAvailable).length} Items</Title>
+                <Flex justify={"flex-end"} align={"center"} gap={"15px"}>
+                    <Button color={"pink.3"} variant="light" onClick={handlerDepositItem.open} autoContrast>Deposit Item</Button>
+                    <Button color={"pink.3"} onClick={handlerCreateItem.open} autoContrast>Create Item</Button>
+                </Flex>
+            </Flex>
 
-            <br />
-
-            <div style={{width: "100%", display: "flex", justifyContent: "space-between", alignItems: "center"}}>
-                <TextInput
-                    mb={"15px"}
-                    description="Find Item"
-                    value={searchTerm}
-                    onChange={(event) => {setSearchTerm(event.target.value)}}
-                />
-
-            </div>
+            <TextInput
+                mt={"15px"}
+                mb={"15px"}
+                description="Find Item"
+                value={searchTerm}
+                onChange={(event) => {setSearchTerm(event.target.value)}}
+            />
 
             <Switch
-                color={"sand.4"}
+                mb={"15px"}
+                color={"pink.3"}
                 checked={onlyAvailable}
                 onChange={(event) => setOnlyAvailable(event.currentTarget.checked)}
                 label={"Only show available Items"}
             />
-            <br />
 
+            <Pagination mb={"5px"} color={"pink.3"} total={data.length} value={activePage} onChange={setPage} mt="sm" />
+            <Text mb={"10px"} size={"xs"}>5 Items per Page</Text>
+            {items}
 
-            {filterItemsByRentedOut(filterItems(itemState.items, searchTerm), onlyAvailable).map(item => {
-                return <div>
-                    <Card shadow="sm" padding="xs" mb="10px" radius="md" withBorder>
-                        <Flex direction={"row"} align={"center"} justify={"space-between"}>
-                            <Flex direction={"column"}>
-                                <Text  size="xs" c="dimmed">Id</Text>
-                                <Text size="xs" mb={"xs"}>{item._id}</Text>
-                            </Flex>
-                            {
-                                item?.rentedOut && <Badge color={"rot.5"} size="sm">
-                                    rented out
-                                </Badge>
-                            }
-                        </Flex>
-
-                        <Text  size="xs" c="dimmed">Name</Text>
-                        <Text mb={"xs"} color={"emerald.6"} size={"md"} fw={"bold"}>{item.name}</Text>
-                        <Text size="xs" c="dimmed">Description</Text>
-                        <Text mb={"xs"}>{item.description}</Text>
-
-                        <Flex justify={"space-between"} align={"center"}>
-                            <Flex direction={"column"}>
-                                <Text size="xs" c="dimmed">Created</Text>
-                                <Text size="sm" color={"sand.1"}>
-                                    {Intl.DateTimeFormat("de-DE", {
-                                        year: "numeric",
-                                        month: "numeric",
-                                        day: "numeric",
-                                        timeZone: "UTC",
-                                    }).format(new Date(item.createdAt))}
-                                </Text>
-                            </Flex>
-
-                            <Button color={"sand.7"} autoContrast onClick={() => {setOpenedScreen("Details"); setItem(item)}}>Details</Button>
-                        </Flex>
-                    </Card>
-                </div>
-            })}
         </>}
 
         {openedScreen === "Details" && item && <>
@@ -459,23 +459,30 @@ export const Items = () => {
                 </div>
             </Modal>
 
-            <div style={{display: "flex", justifyContent: "flex-start", alignItems: "center", marginBottom: "15px"}}>
-                <Button color="lightgrey" style={{marginRight: "15px", padding: "5px"}} onClick={() => {setOpenedScreen("Items"); setItem(null)}}>
+            <Flex justify={"flex-start"} align={"center"} mb={"15px"}>
+                <Button color="pink.3" style={{marginRight: "15px", padding: "5px"}} onClick={() => {setOpenedScreen("Items"); setItem(null)}}>
                     <IconArrowBack />
                 </Button>
-                <h4 style={{margin: "0px"}}>Item</h4>
-            </div>
+                <Title order={5}>{item.name}</Title>
+            </Flex>
 
-            <div style={{display: "flex", justifyContent: "flex-start", alignItems: "center", gap: "15px", flexWrap: "wrap"}}>
-                <Button onClick={() => {
-                    handlerCodeItem.open()
+            <Flex justify={"flex-end"} align={"center"} gap={"15px"}>
+
+                <Button
+                    color={"pink.3"}
+                    variant="light"
+                    onClick={() => {
+                    setItemId(item._id)
+                    setItemName(item.name)
+                    handlerDeleteItem.open()
                 }}>
-                    <IconQrcode></IconQrcode>
-
+                    <IconTrash/>
                 </Button>
 
-
-                <Button onClick={() => {
+                <Button
+                    color={"pink.3"}
+                    variant="outline"
+                    onClick={() => {
                     setItemId(item._id)
                     setItemName(item.name)
                     setItemDescription(item.description)
@@ -484,24 +491,29 @@ export const Items = () => {
                     <IconEdit></IconEdit>
                 </Button>
 
-                <Button onClick={() => {
+                <Button
+                    color={"pink.3"}
+                    variant="outline"
+                    onClick={() => {
                     setItemId(item._id)
                     handlerUpdateImgItem.open()
                 }}>
                     <IconCamera />
                 </Button>
-                <Button onClick={() => {
-                    setItemId(item._id)
-                    setItemName(item.name)
-                    handlerDeleteItem.open()
-                }}>
-                    <IconTrash/>
-                </Button>
-            </div>
-            <br />
 
-            <div style={{display: "flex", justifyContent: "space-between", alignItems: "center"}}>
-                <Badge size="sm" mb={"5px"}>
+                <Button
+                    color={"pink.3"}
+                    onClick={() => {
+                    handlerCodeItem.open()
+                }}>
+                    <IconQrcode></IconQrcode>
+                </Button>
+            </Flex>
+
+            <Image mt={"15px"} mb={"15px"} w={"100%"} src={BackendBaseUrl + "/image/" + item!.imageUrl}></Image>
+
+            <Flex justify={"space-between"} align={"center"}>
+                <Badge size="sm" color={"pink.3"} variant="outline">
                     Created: {Intl.DateTimeFormat("de-DE", {
                     year: "numeric",
                     month: "numeric",
@@ -510,27 +522,18 @@ export const Items = () => {
                 }).format(new Date(item!.createdAt))}
                 </Badge>
                 {
-                    item?.rentedOut && <Badge color={"red"} size="sm" mb={"5px"}>
+                    item?.rentedOut && <Badge color={"purple.9"} size="sm" mb={"5px"}>
                         rented out
                     </Badge>
                 }
 
-            </div>
-            <br />
-
-            <img style={{width: "100%"}} src={BackendBaseUrl + "/image/" + item!.imageUrl} ></img>
-
-            <Text  size="xs" c="dimmed">ItemId</Text>
-            <Text  size="xs" mb={"xs"}>{item?._id}</Text>
-
-            <Text  size="xs" c="dimmed">Itemname</Text>
-            <Text  size="sm" mb={"xs"} fw="bold">{item?.name}</Text>
-
+            </Flex>
+            <Text  size="xs" c="dimmed">Deposition</Text>
+            <Text  mb={"xs"}>{item?.deposition}</Text>
             <Text size="xs" c="dimmed">Description</Text>
             <Text mb={"xs"}>{item?.description}</Text>
 
-            <Text  size="xs" c="dimmed">Deposition</Text>
-            <Text  mb={"xs"}>{item?.deposition}</Text>
+
 
 
 
@@ -558,4 +561,13 @@ function filterItemsByRentedOut(items: Item[], rentedOut: boolean): Item[] {
     } else {
         return items;
     }
+}
+
+function chunk<T>(array: T[], size: number): T[][] {
+    if (!array.length) {
+        return [];
+    }
+    const head = array.slice(0, size);
+    const tail = array.slice(size);
+    return [head, ...chunk(tail, size)];
 }

@@ -46,14 +46,10 @@ module.exports.PrintShelf = async (req, res, next) => {
     try {
         console.log(req.body)
         const { shelfId } = req.body;
-
-        console.log(itemId)
-        // Create the item in the database
-        console.log("Print ENdpoint is being called")
         const shelf = await Shelf.findById(shelfId);
-        console.log(item)
+
         if(shelf){
-            const thing = await fetch("http://127.20.10.11:5000/print/" + shelf + "/" + shelf.name, {
+            const thing = await fetch("http://127.20.10.11:5000/print/" + shelfId + "/" + shelf.name, {
                 method: "POST",
                 body: "{}",
                 headers: {

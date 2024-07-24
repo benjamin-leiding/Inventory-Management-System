@@ -64,6 +64,35 @@ module.exports.CreateItem = async (req, res, next) => {
     }
 };
 
+module.exports.PrintItem = async (req, res, next) => {
+
+    try {
+        const { itemId } = req.body;
+        console.log(req.body)
+        console.log(itemId)
+        // Create the item in the database
+        console.log("Print ENdpoint is being called")
+        const item = await Item.findById(itemId);
+        console.log(item)
+        if(item){
+            const thing = await fetch("http://127.20.10.11:5000/print/" + itemId + "/" + item.name, {
+                method: "POST",
+                body: "{}",
+                headers: {
+                    "Content-type": "application/json; charset=UTF-8"
+                }
+            });
+            console.log(thing)
+            res.status(201).json({ message: "Item was printed", success: true });
+        }
+
+        // Call next() if necessary, but in this case, it's not needed since the request is handled completely here
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ message: 'Internal server error', success: false });
+    }
+}
+
 module.exports.UpdateItem = async (req, res, next) => {
 
     try {

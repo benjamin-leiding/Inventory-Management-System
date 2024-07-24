@@ -47,6 +47,30 @@ export const createItemAsync = createAsyncThunk(
     }
 );
 
+export const printItemAsync = createAsyncThunk(
+    'printItemAsync',
+    async ({ itemId }: { itemId: string}) => {
+        
+        const printItemAsyncUrl = BackendBaseUrl + "/item/print";
+
+        
+        console.log(itemId)
+        
+        const data = await axios.post(
+            printItemAsyncUrl,
+            {itemId: itemId},
+            {
+                headers: {
+                    'Content-Type': 'multipart/form-data', // Set content type to multipart/form-data
+                    'token': window.localStorage.getItem(Keys.Access_token)
+                },
+                withCredentials: true
+            }
+        );
+        console.log(data);
+        return data;
+    }
+);
 export const getItemsAsync = createAsyncThunk(
     'getItemsAsync',
     async () => {
@@ -209,6 +233,19 @@ export const itemsSlice = createSlice({
                 state.items = action.payload.items
             })
             .addCase(getItemsAsync.rejected, (state, {error}) => {
+                console.log("getItemsAsync is rejected")
+            });
+
+        //getItemsAsync
+        builder
+            .addCase(printItemAsync.pending, (state, action) => {
+                console.log("getItemsAsync is loading")
+            })
+            .addCase(printItemAsync.fulfilled, (state, action) => {
+                console.log("getItemsAsync is fulfilled")
+                console.log(action.payload)
+            })
+            .addCase(printItemAsync.rejected, (state, {error}) => {
                 console.log("getItemsAsync is rejected")
             });
 

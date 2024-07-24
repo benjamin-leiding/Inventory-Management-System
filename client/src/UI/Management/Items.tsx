@@ -7,6 +7,7 @@ import {
     deleteItemAsync,
     editItemAsync,
     getItemsAsync,
+    printItemAsync,
     selectItems,
     updateImgItemAsync
 } from "../../state/ItemState"
@@ -442,6 +443,7 @@ export const Items = () => {
                 </div>
                 <div style={{width: "100%", display: "flex", justifyContent: "flex-end"}}>
                     <Button onClick={() => {
+                        dispatch(printItemAsync({itemId: item._id}))
                         handlerCodeItem.close()
                     }}>Print Qr-Code</Button>
                 </div>

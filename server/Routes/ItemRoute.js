@@ -1,4 +1,4 @@
-const { CreateItem, GetItems, UpdateItem, DeleteItem, UpdateItemImg } = require('../Controllers/ItemController')
+const { CreateItem, GetItems, UpdateItem, DeleteItem, UpdateItemImg, PrintItem } = require('../Controllers/ItemController')
 const router = require('express').Router()
 const { MinRole1, MinRole2} = require("../Middlewares/AuthMiddleware")
 
@@ -59,5 +59,7 @@ router.post('/update_img', [MinRole1, UpdateItemImg])
  *        - MinRole1: []
  */
 router.post('/delete', [MinRole1, DeleteItem])
+
+router.post('/print', [MinRole1, PrintItem])
 
 module.exports = router

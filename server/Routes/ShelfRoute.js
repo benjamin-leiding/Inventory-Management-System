@@ -1,4 +1,4 @@
-const { CreateShelf, DeleteShelf } = require('../Controllers/ShelfController')
+const { CreateShelf, DeleteShelf, PrintShelf } = require('../Controllers/ShelfController')
 const router = require('express').Router()
 const { MinRole1, MinRole2} = require("../Middlewares/AuthMiddleware")
 
@@ -26,5 +26,7 @@ router.post('/create', [MinRole1 ,CreateShelf])
  *        - MinRole1: []
  */
 router.post('/delete', [MinRole1, DeleteShelf])
+
+router.post('/print', [MinRole1, PrintShelf])
 
 module.exports = router

@@ -1,6 +1,7 @@
 const User = require("../Models/UserModel");
 const Room = require("../Models/RoomModel");
 const Shelf = require("../Models/ShelfModel");
+const Deposition = require("../Models/DepositionModel")
 const { createSecretToken } = require("../util/SecretToken");
 const bcrypt = require("bcrypt");
 
@@ -39,6 +40,36 @@ module.exports.CreateShelf = async (req, res, next) => {
     }
 
 };
+
+module.exports.PrintShelf = async (req, res, next) => {
+
+    try {
+        console.log(req.body)
+        const { shelfId } = req.body;
+
+        console.log(itemId)
+        // Create the item in the database
+        console.log("Print ENdpoint is being called")
+        const shelf = await Shelf.findById(shelfId);
+        console.log(item)
+        if(shelf){
+            const thing = await fetch("http://127.20.10.11:5000/print/" + shelf + "/" + shelf.name, {
+                method: "POST",
+                body: "{}",
+                headers: {
+                    "Content-type": "application/json; charset=UTF-8"
+                }
+            });
+            console.log(thing)
+            res.status(201).json({ message: "Shelf was printed", success: true });
+        }
+
+        // Call next() if necessary, but in this case, it's not needed since the request is handled completely here
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ message: 'Internal server error', success: false });
+    }
+}
 
 module.exports.DeleteShelf = async (req, res, next) => {
 

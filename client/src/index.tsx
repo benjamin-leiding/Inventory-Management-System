@@ -35,7 +35,7 @@ root.render(
   <React.StrictMode>
       <BrowserRouter>
           <Provider store={store}>
-              <MantineProvider theme={theme}>
+              <MantineProvider theme={theme} defaultColorScheme="dark" >
                   <Notifications position="top-right"/>
                   <App />
               </MantineProvider>

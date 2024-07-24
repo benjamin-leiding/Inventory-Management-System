@@ -6,7 +6,7 @@ import { Drawer, Button, Card, Group, Modal, TextInput, Text, UnstyledButton, Nu
 
 import { IconArrowBack, IconTrash } from '@tabler/icons-react'
 import { createRoomAsync, deleteRoomAsync } from "../../state/RoomState";
-import {createShelfAsync, deleteShelfAsync} from "../../state/ShelfState";
+import {createShelfAsync, deleteShelfAsync, printShelfAsync} from "../../state/ShelfState";
 import { Building } from "../../Models/Building";
 import { getItemsAsync } from "../../state/ItemState";
 import QRCode from "react-qr-code";
@@ -326,6 +326,7 @@ export const Buildings = () => {
                                                 </div>
                                                 <div style={{width: "100%", display: "flex", justifyContent: "flex-end"}}>
                                                     <Button onClick={() => {
+                                                        dispatch(printShelfAsync({shelfId: shelf._id}))
                                                         handlerShelfQr.close()
                                                     }}>Print Qr-Code</Button>
                                                 </div>

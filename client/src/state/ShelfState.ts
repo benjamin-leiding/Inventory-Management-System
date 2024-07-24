@@ -40,6 +40,28 @@ export const createShelfAsync = createAsyncThunk(
     }
 );
 
+export const printShelfAsync = createAsyncThunk(
+    'printShelfAsync',
+    async ({ shelfId }: { shelfId: string}) => {
+
+        const printItemAsyncUrl = BackendBaseUrl + "/shelf/print";
+        
+
+        const data = await axios.post(
+            printItemAsyncUrl,
+            {shelfId: shelfId},
+            {
+                headers: {
+                    'Content-Type': 'application/json', // Set content type to multipart/form-data
+                    'token': window.localStorage.getItem(Keys.Access_token)
+                },
+                withCredentials: true
+            }
+        );
+        console.log(data);
+        return data;
+    }
+);
 export const deleteShelfAsync = createAsyncThunk(
     'deleteShelfAsync',
     async ( shelfId: string ) => {
@@ -85,6 +107,19 @@ export const shelfSlice = createSlice({
                 console.log(action.payload)
             })
             .addCase(createShelfAsync.rejected, (state, {error}) => {
+                console.log("createShelfAsync is rejected")
+            });
+
+        //getUsersAsync
+        builder
+            .addCase(printShelfAsync.pending, (state, action) => {
+                console.log("createShelfAsync is loading")
+            })
+            .addCase(printShelfAsync.fulfilled, (state, action) => {
+                console.log("createShelfAsync is fulfilled")
+                console.log(action.payload)
+            })
+            .addCase(printShelfAsync.rejected, (state, {error}) => {
                 console.log("createShelfAsync is rejected")
             });
 
